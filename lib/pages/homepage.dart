@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mountain/models/getposts.dart';
-import 'services/networkhelper.dart';
+import '../services/networkhelper.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});

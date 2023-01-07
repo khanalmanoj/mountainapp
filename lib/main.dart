@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:mountain/homepage.dart';
+import 'package:mountain/pages/homepage.dart';
+import 'package:mountain/pages/loginpage.dart';
 import 'widgets/theme.dart';
 
 void main() {
@@ -14,7 +15,7 @@ class MountainApp extends StatelessWidget {
     return MaterialApp(
       theme: Mytheme.lightTheme(context),
       debugShowCheckedModeBanner: false,
-      home: HomePage(),
+      home: LoginPage(),
     );
   }
 }
