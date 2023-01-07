@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:mountain/homepage.dart';
-import 'package:mountain/loginpage.dart';
 
 void main() {
   runApp(const MountainApp());

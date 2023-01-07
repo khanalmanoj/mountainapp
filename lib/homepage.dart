@@ -53,15 +53,21 @@ class _HomePageState extends State<HomePage> {
             itemCount: posts?.length,
             itemBuilder: (context, index) {
               return Card(
+                margin: EdgeInsets.symmetric(vertical: 8, horizontal: 15),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10.0),
+                ),
                 color: Colors.white,
                 child: ListTile(
+                  contentPadding: EdgeInsets.all(10),
                   title: Text(
                     posts![index].name ?? 'No Data',
                   ),
                   leading: Image.asset('assets/Rectangle.png'),
                   subtitle: Text(
-                    posts![index].description ?? 'No Data',
+                    posts![index].price?.toString() ?? 'No Data',
                   ),
+                  trailing: Icon(Icons.arrow_forward),
                 ),
               );
             },
