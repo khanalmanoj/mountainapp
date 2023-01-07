@@ -1,8 +1,9 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:mountain/models/getposts.dart';
+import 'package:mountain/widgets/bottom_navigation.dart';
 import '../services/networkhelper.dart';
+import 'package:banner_carousel/banner_carousel.dart';
+import 'package:mountain/models/banners.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -38,71 +39,66 @@ class _HomePageState extends State<HomePage> {
       appBar: AppBar(
         backgroundColor: Colors.white,
         centerTitle: true,
-        title: Text(
-            style: TextStyle(
-                color: Colors.blue),
-            'Home'),
+        title: Text(style: TextStyle(color: Colors.blue), 'Home'),
       ),
       backgroundColor: Color.fromARGB(255, 217, 236, 255),
-      bottomNavigationBar: bottomNavigationBar,
-      body: Visibility(
-        visible: isLoaded,
-        child: Container(
-          child: ListView.builder(
-            itemCount: posts?.length,
-            itemBuilder: (context, index) {
-              return Card(
-                margin: EdgeInsets.symmetric(vertical: 8, horizontal: 15),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10.0),
-                ),
-                color: Colors.white,
-                child: ListTile(
-                  contentPadding: EdgeInsets.all(10),
-                  title: Text(
-                    posts![index].name ?? 'No Data',
-                  ),
-                  leading: Image.asset('assets/Rectangle.png'),
-                  subtitle: Text(
-                    '\Rs. ${posts![index].price?.toString()}',
-                  ),
-                  trailing: Icon(Icons.arrow_forward),
-                ),
-              );
-            },
+      bottomNavigationBar: BottomNavigation(),
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(12.0),
+            child: Text(
+              'Good Afternoon User',
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+            ),
           ),
-        ),
-        replacement: Center(
-          child: CircularProgressIndicator(),
-        ),
+          BannerCarousel(
+            banners: BannerImages.listBanners,
+            showIndicator: false,
+            animation: false,
+            height: 200,
+            borderRadius: 10,
+            indicatorBottom: false,
+          ),
+          SizedBox(
+            height: 20,
+          ),
+          Expanded(
+            child: Visibility(
+              visible: isLoaded,
+              child: Container(
+                child: ListView.builder(
+                  itemCount: posts?.length,
+                  itemBuilder: (context, index) {
+                    return Card(
+                      margin: EdgeInsets.symmetric(vertical: 8, horizontal: 15),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10.0),
+                      ),
+                      color: Colors.white,
+                      child: ListTile(
+                        contentPadding: EdgeInsets.all(10),
+                        title: Text(
+                          posts![index].name ?? 'No Data',
+                        ),
+                        leading: Image.asset('assets/Rectangle.png'),
+                        subtitle: Text(
+                          '\Rs. ${posts![index].price?.toString()}',
+                        ),
+                        trailing: Icon(Icons.arrow_forward),
+                      ),
+                    );
+                  },
+                ),
+              ),
+              replacement: Center(
+                child: CircularProgressIndicator(),
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
-}
-
-Widget get bottomNavigationBar {
-  return ClipRRect(
-    borderRadius: BorderRadius.only(
-      topRight: Radius.circular(25),
-      topLeft: Radius.circular(25),
-    ),
-    child: BottomNavigationBar(
-      items: [
-        BottomNavigationBarItem(
-            icon: Icon(
-              CupertinoIcons.home,
-            ),
-            label: 'Home'),
-        BottomNavigationBarItem(
-            icon: Icon(CupertinoIcons.cart_fill), label: 'Cart'),
-        BottomNavigationBarItem(
-            icon: Icon(CupertinoIcons.bag), label: 'Offers'),
-        BottomNavigationBarItem(
-            icon: Icon(CupertinoIcons.profile_circled), label: 'Profile'),
-      ],
-      unselectedItemColor: Colors.grey,
-      selectedItemColor: Colors.blue,
-      showUnselectedLabels: true,
-    ),
-  );
 }
