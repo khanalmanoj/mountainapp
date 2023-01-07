@@ -40,7 +40,6 @@ class _HomePageState extends State<HomePage> {
         centerTitle: true,
         title: Text(
             style: TextStyle(
-                fontFamily: GoogleFonts.roboto().fontFamily,
                 color: Colors.blue),
             'Home'),
       ),
@@ -65,7 +64,7 @@ class _HomePageState extends State<HomePage> {
                   ),
                   leading: Image.asset('assets/Rectangle.png'),
                   subtitle: Text(
-                    posts![index].price?.toString() ?? 'No Data',
+                    '\Rs. ${posts![index].price?.toString()}',
                   ),
                   trailing: Icon(Icons.arrow_forward),
                 ),
