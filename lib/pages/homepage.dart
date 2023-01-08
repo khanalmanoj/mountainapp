@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mountain/models/getposts.dart';
+import 'package:mountain/pages/firstpage.dart';
 import 'package:mountain/widgets/bottom_navigation.dart';
 import '../services/networkhelper.dart';
 import 'package:banner_carousel/banner_carousel.dart';
@@ -71,6 +72,7 @@ class _HomePageState extends State<HomePage> {
                 child: ListView.builder(
                   itemCount: posts?.length,
                   itemBuilder: (context, index) {
+                    final post = posts![index];
                     return Card(
                       margin: EdgeInsets.symmetric(vertical: 8, horizontal: 15),
                       shape: RoundedRectangleBorder(
@@ -78,16 +80,23 @@ class _HomePageState extends State<HomePage> {
                       ),
                       color: Colors.white,
                       child: ListTile(
-                        contentPadding: EdgeInsets.all(10),
-                        title: Text(
-                          posts![index].name ?? 'No Data',
-                        ),
-                        leading: Image.asset('assets/Rectangle.png'),
-                        subtitle: Text(
-                          '\Rs. ${posts![index].price?.toString()}',
-                        ),
-                        trailing: Icon(Icons.arrow_forward),
-                      ),
+                          contentPadding: EdgeInsets.all(10),
+                          title: Text(
+                            posts![index].name ?? 'No Data',
+                          ),
+                          leading: Image.asset('assets/Rectangle.png'),
+                          subtitle: Text(
+                            '\Rs. ${posts![index].price?.toString()}',
+                          ),
+                          trailing: Icon(Icons.arrow_forward),
+                          onTap: () {
+                            Navigator.push(context,
+                                MaterialPageRoute(builder: (context) {
+                              return FirstPage(
+                                post: post,
+                              );
+                            }));
+                          }),
                     );
                   },
                 ),

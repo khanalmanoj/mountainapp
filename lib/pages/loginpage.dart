@@ -1,7 +1,11 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 import 'package:mountain/pages/homepage.dart';
 import '../services/networkhelper.dart';
 import '../models/loginmodel.dart';
+import 'package:connectivity_plus/connectivity_plus.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -51,6 +55,12 @@ class _LoginPageState extends State<LoginPage> {
                       borderSide: BorderSide(width: 2, color: Colors.blue),
                     ),
                   ),
+                  validator: (value) {
+                    if (value!.isEmpty) {
+                      return "Username cant be empty";
+                    }
+                    return null;
+                  },
                 ),
                 SizedBox(
                   height: 20,
@@ -58,6 +68,14 @@ class _LoginPageState extends State<LoginPage> {
                 TextFormField(
                   controller: passwordController,
                   obscureText: true,
+                  validator: (value) {
+                    if (value!.isEmpty) {
+                      return "Password cant be empty";
+                    } else if (value.length < 6) {
+                      return "Password cant be empty";
+                    }
+                    return null;
+                  },
                   decoration: InputDecoration(
                     hintText: 'Enter Password',
                     labelText: 'Password',
@@ -108,6 +126,19 @@ class _LoginPageState extends State<LoginPage> {
                           var phoneData = phoneController.text.toString();
                           var passwordData = passwordController.text.toString();
 
+                          var connectivityResult =
+                              await (Connectivity().checkConnectivity());
+                          if (connectivityResult == ConnectivityResult.none) {
+                            Fluttertoast.showToast(
+                                msg: "No internet connection",
+                                toastLength: Toast.LENGTH_SHORT,
+                                gravity: ToastGravity.BOTTOM,
+                                timeInSecForIosWeb: 1,
+                                backgroundColor: Colors.red,
+                                textColor: Colors.white,
+                                fontSize: 16.0);
+                          }
+
                           Login logindata = await NetworkHelper().getLogin(
                               phone: phoneData, password: passwordData);
 
@@ -119,7 +150,15 @@ class _LoginPageState extends State<LoginPage> {
                                 MaterialPageRoute(builder: (context) {
                               return HomePage();
                             }));
-                          }
+                          } else
+                            Fluttertoast.showToast(
+                                msg: "Wrong Credentials",
+                                toastLength: Toast.LENGTH_SHORT,
+                                gravity: ToastGravity.BOTTOM,
+                                timeInSecForIosWeb: 1,
+                                backgroundColor: Colors.red,
+                                textColor: Colors.white,
+                                fontSize: 16.0);
                         })),
               ]),
             ),
